@@ -3,352 +3,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OLON PLATFORM V8.1 - Master Log</title>
+    <title>Olon Init v7.3 | Documentation</title>
     <style>
-        :root { 
-            --bg-color: #1e1e1e; 
-            --sidebar-color: #252526; 
-            --text-color: #d4d4d4; 
-            --accent-color: #007acc; 
-            --border-color: #3e3e42; 
-            --kwd: #569cd6; --str: #ce9178; --ctl: #c586c0; --cls: #4ec9b0; --mtd: #dcdcaa; --var: #9cdcfe; --cmt: #6a9955; 
-        }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; }
-        
-        /* --- SIDEBAR & NAV --- */
-        .sidebar { background-color: var(--sidebar-color); border-color: var(--border-color); z-index: 100; transition: all 0.3s ease; }
-        .sidebar-header { padding: 15px 20px; font-weight: bold; color: #fff; border-bottom: 1px solid var(--border-color); white-space: nowrap; letter-spacing: 1px; }
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
-        
-        /* Etichette Menu */
-        .sidebar li a { 
-            display: block; padding: 12px 20px; color: var(--text-color); text-decoration: none; 
-            font-size: 0.9rem; border-left: 4px solid transparent; transition: background 0.2s, border-color 0.2s; 
-            white-space: nowrap; font-weight: 500;
-        }
-        .sidebar li a:hover { background-color: #2a2d2e; }
-        .sidebar li a.active { background-color: rgba(0, 122, 204, 0.15); color: #fff; border-left-color: var(--accent-color); }
+        :root {
+            --bg-primary: #0f172a;    /* Slate 900 */
+            --bg-secondary: #1e293b;  /* Slate 800 */
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;  /* Slate 50 */
+            --text-secondary: #94a3b8; /* Slate 400 */
+            --accent: #38bdf8;        /* Sky 400 */
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --border: #334155;        /* Slate 700 */
+            --code-bg: #020617;       /* Slate 950 */
+            
+            /* Feature Colors */
+            --feat-safety: #34d399;   /* Emerald 400 */
+            --feat-auto: #fbbf24;     /* Amber 400 */
+            --feat-perf: #818cf8;     /* Indigo 400 */
+            
+            /* Syntax Highlighting Colors */
+            --kwd: #569cd6; --str: #ce9178; --ctl: #c586c0; 
+            --cls: #4ec9b0; --mtd: #dcdcaa; --var: #9cdcfe; 
+            --cmt: #6a9955;
 
-        /* Config Box Interattivo */
-        .config-box { padding: 15px 20px; background: #2d2d2d; border-top: 1px solid var(--border-color); }
-        .config-box label { display: block; font-size: 0.7rem; color: #999; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
-        .config-box input { width: 100%; box-sizing: border-box; background: #1e1e1e; border: 1px solid #444; color: #fff; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 0.85rem; font-weight: bold; color: var(--accent-color); }
-        .config-box input:focus { border-color: var(--accent-color); outline: none; }
-        
-        .dynamic-scope { color: #ff9d00; font-weight: bold; text-decoration: underline dotted; cursor: help; }
+            /* Category Tags */
+            --tag-fe: #ec4899; /* Pink for Frontend */
+            --tag-be: #e11d48; /* Red for Backend */
+            --tag-sh: #8b5cf6; /* Violet for Shared */
+        }
 
-        /* --- LAYOUT RESPONSIVE --- */
-        /* Desktop */
-        @media(min-width: 1024px) {
-            body { flex-direction: row; }
-            .sidebar { width: 260px; height: 100vh; position: fixed; top: 0; left: 0; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; }
-            .sidebar ul { flex-grow: 1; overflow-y: auto; }
-            .main-content { padding: 40px; width: 100%; max-width: 900px; margin: 0 auto; margin-left: 260px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
         }
-        
-        /* Mobile/Tablet (<1024px) */
-        @media(max-width: 1023px) {
-            .sidebar { 
-                width: 100%; height: auto; position: fixed; bottom: 0; left: 0; 
-                border-top: 1px solid var(--border-color); display: flex; flex-direction: row; 
-                align-items: center; overflow-x: auto; box-shadow: 0 -4px 10px rgba(0,0,0,0.5); 
-                justify-content: space-between; 
-            }
-            .sidebar-header { border-bottom: none; border-right: 1px solid var(--border-color); padding: 10px 15px; font-size: 0.85rem; }
-            .sidebar ul { display: flex; flex-direction: row; }
-            .sidebar li a { 
-                border-left: none; border-top: 4px solid transparent; 
-                padding: 15px 15px; font-size: 0.85rem; 
-            }
-            .sidebar li a.active { border-left-color: transparent; border-top-color: var(--accent-color); }
-            .config-box { border-top: none; border-left: 1px solid var(--border-color); padding: 8px; min-width: 140px; }
-            .main-content { padding: 20px 20px 100px 20px; width: 100%; box-sizing: border-box; }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
         }
-        
-        /* Typography & Components */
-        h1 { border-bottom: 1px solid var(--border-color); padding-bottom: 15px; color: #fff; font-size: 1.8rem; margin-top: 0; }
-        h3 { color: var(--accent-color); margin-top: 50px; border-left: 4px solid var(--accent-color); padding-left: 10px; scroll-margin-top: 20px; }
-        h4 { color: #fff; margin-top: 30px; margin-bottom: 10px; font-size: 1.1rem; }
-        p { line-height: 1.6; color: #ccc; }
-        
-        code.inline { background-color: #3c3c3c; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #d7ba7d; word-break: break-all; font-size: 0.9em; }
-        
-        .code-container { background-color: #1e1e1e; border: 1px solid var(--border-color); border-radius: 6px; margin: 15px 0; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-        .code-header { background-color: #2d2d2d; padding: 8px 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; color: #999; font-size: 0.85rem; }
-        .copy-btn { background: transparent; border: 1px solid #444; color: #ccc; border-radius: 4px; padding: 4px 10px; cursor: pointer; transition: all 0.2s; font-size: 0.8rem; }
-        .copy-btn:hover { background-color: #3e3e42; color: white; border-color: #666; }
-        
-        pre { margin: 0; padding: 15px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace; color: #d4d4d4; font-size: 14px; line-height: 1.5; }
-        
-        /* Syntax Highlighting */
-        .kwd { color: var(--kwd); } .str { color: var(--str); } .ctl { color: var(--ctl); } .cls { color: var(--cls); } .mtd { color: var(--mtd); } .var { color: var(--var); } .cmt { color: #6a9955; }
-        .cmd-label { color: #4ec9b0; font-weight: bold; margin-bottom: 5px; display: block; font-size: 0.85rem; letter-spacing: 0.5px; }
-        .note { background: #2d2d2d; border-left: 3px solid #ffd700; padding: 15px; font-size: 0.9rem; margin: 20px 0; color: #eee; border-radius: 0 4px 4px 0; }
+
+        /* Typography */
+        h1 { 
+            font-size: 2.5rem; 
+            margin-top: 0; 
+            border-bottom: 1px solid var(--border); 
+            padding-bottom: 20px; 
+            display: flex; align-items: center; gap: 15px;
+        }
+
+        h2 { 
+            font-size: 1.8rem; 
+            border-bottom: 1px solid var(--border); 
+            padding-bottom: 10px; 
+            color: var(--text-primary);
+            margin-top: 3rem;
+        }
+
+        h3 { color: var(--accent); margin-top: 1.5rem; }
+
+        /* Hero Badges */
+        .badge {
+            font-size: 0.5em; vertical-align: middle; background: var(--accent); color: #0f172a;
+            padding: 4px 12px; border-radius: 99px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 1px; box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* --- FEATURE GRID --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .feature-card:hover { transform: translateY(-2px); border-color: var(--text-secondary); }
+        .feature-card.main { grid-column: 1 / -1; background: linear-gradient(145deg, rgba(6, 78, 59, 0.2), var(--bg-card)); border-color: rgba(52, 211, 153, 0.3); }
+
+        .feat-icon { font-size: 1.8rem; margin-bottom: 15px; display: block; }
+        .feat-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; display: block; color: var(--text-primary); }
+        .feat-desc { font-size: 0.95rem; color: var(--text-secondary); margin: 0; }
+
+        /* Highlights */
+        .hl-safety { color: var(--feat-safety); }
+        .hl-auto { color: var(--feat-auto); }
+        .hl-perf { color: var(--feat-perf); }
+
+        /* --- TABLES (GENERATORS) --- */
+        table {
+            width: 100%; border-collapse: separate; border-spacing: 0; margin: 20px 0;
+            background: var(--bg-secondary); border-radius: 8px; overflow: hidden; border: 1px solid var(--border);
+        }
+        th, td { padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        th { background-color: #162032; color: var(--accent); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
+        tr:last-child td { border-bottom: none; }
+
+        /* Tags */
+        .tag { font-size: 0.7rem; font-weight: bold; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; display: inline-block; min-width: 65px; text-align: center; }
+        .tag-fe { background: rgba(236, 72, 153, 0.15); color: var(--tag-fe); border: 1px solid var(--tag-fe); }
+        .tag-be { background: rgba(225, 29, 72, 0.15); color: var(--tag-be); border: 1px solid var(--tag-be); }
+        .tag-sh { background: rgba(139, 92, 246, 0.15); color: var(--tag-sh); border: 1px solid var(--tag-sh); }
+
+        /* --- CODE BLOCKS --- */
+        .code-container { 
+            background-color: var(--bg-secondary); 
+            border: 1px solid var(--border); 
+            border-radius: 6px; 
+            margin: 15px 0; 
+            position: relative; 
+        }
+        .code-header { 
+            background-color: #162032; 
+            padding: 8px 15px; 
+            border-bottom: 1px solid var(--border); 
+            display: flex; justify-content: space-between; align-items: center; 
+            color: #94a3b8; font-size: 0.85rem; font-family: sans-serif;
+        }
+        pre {
+            background: var(--code-bg);
+            padding: 20px;
+            border-radius: 0 0 6px 6px;
+            overflow-x: auto;
+            margin: 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            color: #d4d4d4;
+        }
+        .copy-btn { 
+            background: transparent; border: 1px solid #475569; color: #ccc; 
+            border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s;
+        }
+        .copy-btn:hover { background-color: #334155; color: white; }
+
+        /* Inline Code */
+        code.inline { background: rgba(0,0,0,0.3); padding: 3px 6px; border-radius: 4px; color: #fbbf24; border: 1px solid var(--border); font-family: monospace; font-size: 0.9em; }
+
+        /* Syntax Coloring Classes */
+        .kwd { color: var(--kwd); } .str { color: var(--str); } .ctl { color: var(--ctl); } 
+        .cls { color: var(--cls); } .mtd { color: var(--mtd); } .var { color: var(--var); } 
+        .cmt { color: var(--cmt); }
+
+        footer {
+            margin-top: 80px; padding-top: 30px; border-top: 1px solid var(--border);
+            text-align: center; font-size: 0.9em; color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
 
-    <nav class="sidebar">
-        <div class="sidebar-header">OLON MASTER LOG</div>
-        
-        <ul>
-            <li><a href="#section1" class="nav-link">✔️ 1. Setup</a></li>
-            <li><a href="#section2" class="nav-link">📦 2. Shared Types</a></li>
-            <li><a href="#section3" class="nav-link">🛠️ 3. Backend (Nest)</a></li>
-            <li><a href="#section4" class="nav-link">💻 4. Frontend (Ng)</a></li>
-            <li><a href="#section5" class="nav-link">🚀 5. Esecuzione</a></li>
-        </ul>
+<div class="container">
+    <header>
+        <h1>Olon Init <span class="badge">v7.3</span></h1>
+        <p style="font-size: 1.2rem; color: var(--text-secondary);">
+            Automazione Monorepo Nx per Angular & NestJS.
+        </p>
+    </header>
 
-        <div class="config-box">
-            <label for="ws-name">Workspace Name</label>
-            <input type="text" id="ws-name" value="olon-platform" placeholder="es. monoRepo" oninput="updateScope()">
-        </div>
-    </nav>
-
-    <div class="main-content">
-        <h1>📂 OLON PLATFORM V8.1 - Master Log</h1>
-        <p>Manuale operativo interattivo. Usa la sidebar per aggiornare il nome del progetto in tutti i codici.</p>
-
-        <div id="section1">
-            <h3>1. Setup Check</h3>
-            <p>
-                Si assume che il workspace sia stato inizializzato con lo script <code class="inline">olon-init.sh</code> (disponibile nel README).
+    <section class="features-grid">
+        <div class="feature-card main">
+            <span class="feat-icon">🛡️</span>
+            <span class="feat-title hl-safety">End-to-End Type Safety</span>
+            <p class="feat-desc">
+                Il superpotere di questa architettura. Le interfacce TypeScript vivono in una libreria condivisa.
+                Se modifichi un DTO nel Backend, il Frontend <strong>si rompe in compilazione</strong> prima ancora che tu possa committare.
             </p>
-            <div class="note">⚠️ <b>Action Required:</b> Se non hai ancora il progetto, scarica lo script dal README ed eseguilo.</div>
+        </div>
+        <div class="feature-card">
+            <span class="feat-icon">⚡</span>
+            <span class="feat-title hl-auto">Standardization</span>
+            <p class="feat-desc">
+                Configurazione automatica di <strong>SCSS</strong>, <strong>Esbuild</strong> e <strong>Jest</strong> per ogni nuovo componente generato.
+            </p>
+        </div>
+        <div class="feature-card">
+            <span class="feat-icon">🚀</span>
+            <span class="feat-title hl-perf">Developer Experience</span>
+            <p class="feat-desc">
+                Struttura a cartelle scalabile, caching intelligente e naming convention forzate via script.
+            </p>
+        </div>
+    </section>
 
-            <p>Verifica ambiente e lancio setup:</p>
+    <main>
+        <section id="setup">
+            <h2>🚀 Quick Start: Inizializzazione</h2>
+            <p>
+                Salva il seguente codice nel file <code class="inline">olon-init.sh</code>. 
+                <br>Lo script gestisce interattivamente nomi, errori e configura i default del workspace.
+            </p>
+
+            <div class="code-container">
+                <div class="code-header"><div>olon-init.sh</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
+                <pre><code><span class="cmt">#!/bin/bash</span>
+<span class="cmt"># CONFIGURAZIONE E COLORI</span>
+VS_BLUE=<span class="str">'\033[1;34m'</span>
+VS_GREEN=<span class="str">'\033[1;32m'</span>
+VS_RED=<span class="str">'\033[1;31m'</span>
+VS_YELLOW=<span class="str">'\033[1;33m'</span>
+NC=<span class="str">'\033[0m'</span>
+
+<span class="cmt"># Gestione errori robusta</span>
+<span class="ctl">set</span> -e
+<span class="ctl">set</span> -o pipefail
+
+<span class="cmt"># 1. RACCOLTA DATI (INPUT UTENTE)</span>
+PROJECT_NAME=<span class="var">$1</span>
+
+<span class="ctl">if</span> [ -z <span class="str">"$PROJECT_NAME"</span> ]; <span class="ctl">then</span>
+    <span class="mtd">echo</span> -e -n <span class="str">"${VS_BLUE}➤ Inserisci il nome del Workspace (cartella root): ${NC}"</span>
+    <span class="mtd">read</span> PROJECT_NAME
+<span class="ctl">fi</span>
+
+<span class="ctl">if</span> [ -z <span class="str">"$PROJECT_NAME"</span> ]; <span class="ctl">then</span>
+    <span class="mtd">echo</span> -e <span class="str">"${VS_RED}❌ Errore: Nome progetto mancante.${NC}"</span>
+    <span class="ctl">exit</span> 1
+<span class="ctl">fi</span>
+
+<span class="mtd">echo</span> -e -n <span class="str">"${VS_BLUE}➤ Inserisci nome App Angular [default: frontend]: ${NC}"</span>
+<span class="mtd">read</span> FRONTEND_INPUT
+FRONTEND_APP_NAME=<span class="var">${FRONTEND_INPUT:-frontend}</span>
+
+<span class="mtd">echo</span> -e -n <span class="str">"${VS_BLUE}➤ Inserisci nome App NestJS [default: backend]: ${NC}"</span>
+<span class="mtd">read</span> BACKEND_INPUT
+BACKEND_APP_NAME=<span class="var">${BACKEND_INPUT:-backend}</span>
+
+<span class="mtd">echo</span> -e <span class="str">"\n${VS_YELLOW}------------------------------------------------${NC}"</span>
+<span class="mtd">echo</span> -e <span class="str">"🚀 RIEPILOGO: Workspace: $PROJECT_NAME | Front: $FRONTEND_APP_NAME | Back: $BACKEND_APP_NAME"</span>
+<span class="mtd">echo</span> -e <span class="str">"${VS_YELLOW}------------------------------------------------${NC}\n"</span>
+
+<span class="cmt"># Check prerequisiti</span>
+<span class="ctl">if</span> ! <span class="mtd">command</span> -v node &> /dev/null; <span class="ctl">then</span>
+    <span class="mtd">echo</span> -e <span class="str">"${VS_RED}❌ Errore: Node.js non installato.${NC}"</span>
+    <span class="ctl">exit</span> 1
+<span class="ctl">fi</span>
+
+<span class="mtd">echo</span> -e <span class="str">"${VS_BLUE}➤ Creazione Workspace Nx...${NC}"</span>
+npx create-nx-workspace@latest <span class="str">"$PROJECT_NAME"</span> --preset=apps --packageManager=npm --nxCloud=skip --yes
+<span class="mtd">cd</span> <span class="str">"$PROJECT_NAME"</span> || <span class="ctl">exit</span>
+
+<span class="mtd">echo</span> -e <span class="str">"\n${VS_BLUE}➤ Installazione Plugin...${NC}"</span>
+npm install -D @nx/angular @nx/nest @nx/js
+
+<span class="mtd">echo</span> -e <span class="str">"\n${VS_BLUE}➤ Configurazione Defaults (nx.json)...${NC}"</span>
+<span class="cmt"># Inietta regole in nx.json per forzare SCSS e Jest su tutti i futuri componenti</span>
+node -e <span class="str">"
+const fs = require('fs');
+const fileName = 'nx.json';
+try {
+    const nxJson = JSON.parse(fs.readFileSync(fileName, 'utf8'));
+    nxJson.generators = nxJson.generators || {};
+    nxJson.generators['@nx/angular:component'] = { style: 'scss', inlineStyle: false };
+    nxJson.generators['@nx/angular:library'] = { linter: 'eslint', unitTestRunner: 'jest' };
+    fs.writeFileSync(fileName, JSON.stringify(nxJson, null, 2));
+} catch (e) { process.exit(1); }
+"</span>
+
+<span class="mtd">echo</span> -e <span class="str">"\n${VS_BLUE}➤ Generazione Frontend: $FRONTEND_APP_NAME...${NC}"</span>
+npx nx g @nx/angular:application \
+  --name=<span class="str">"$FRONTEND_APP_NAME"</span> \
+  --directory=<span class="str">"apps/$FRONTEND_APP_NAME"</span> \
+  --style=scss --routing --e2eTestRunner=cypress --bundler=esbuild --ssr=<span class="kwd">false</span> --unitTestRunner=jest --no-interactive
+
+<span class="mtd">echo</span> -e <span class="str">"\n${VS_BLUE}➤ Generazione Backend: $BACKEND_APP_NAME...${NC}"</span>
+npx nx g @nx/nest:application \
+  --name=<span class="str">"$BACKEND_APP_NAME"</span> \
+  --directory=<span class="str">"apps/$BACKEND_APP_NAME"</span> \
+  --frontendProject=<span class="str">"$FRONTEND_APP_NAME"</span> \
+  --unitTestRunner=jest --no-interactive
+
+<span class="mtd">echo</span> -e <span class="str">"\n${VS_BLUE}➤ Generazione Lib Shared...${NC}"</span>
+npx nx g @nx/js:library --name=shared-data --directory=libs/shared-data --bundler=tsc --importPath=<span class="str">"@$PROJECT_NAME/shared-data"</span> --unitTestRunner=jest --no-interactive
+
+<span class="mtd">echo</span> -e <span class="str">"\n${VS_GREEN}✅ SETUP COMPLETATO!${NC}"</span></code></pre>
+            </div>
+            
+            <p>Esegui il comando nel terminale:</p>
             <div class="code-container">
                 <div class="code-header"><div>Terminal</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code><span class="cmt"># 1. Verifica Node.js (Richiesto v18+)</span>
-node -v
-
-<span class="cmt"># 2. Lancia lo script di init se sei nella cartella vuota</span>
-bash olon-init.sh</code></pre>
+                <pre><code>bash olon-init.sh</code></pre>
             </div>
-        </div>
+        </section>
 
-        <div id="section2">
-            <h3>2. Shared Types</h3>
-            <p>Definizione contratti dati. Il path di importazione si aggiorna automaticamente in base al tuo workspace.</p>
-            
-            <p>File: <code class="inline">libs/shared-data/src/lib/product.interface.ts</code></p>
+        <section id="workflow-shared">
+            <h2>🔄 Workflow: Shared Types</h2>
+            <blockquote>
+                Definisci il dato una volta sola, usalo ovunque.
+            </blockquote>
+
+            <h3>1. Definisci nella libreria condivisa</h3>
+            <p>File: <code>libs/shared-data/src/lib/user.interface.ts</code></p>
             <div class="code-container">
-                <div class="code-header"><div>product.interface.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code><span class="cmt">// Contratto dati condiviso (Single Source of Truth)</span>
-<span class="ctl">export</span> <span class="kwd">interface</span> <span class="cls">Product</span> {
-  id: <span class="kwd">string</span>;
-  name: <span class="kwd">string</span>;
-  price: <span class="kwd">number</span>;
-  description: <span class="kwd">string</span>;
+                <div class="code-header"><div>user.interface.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
+                <pre><code><span class="ctl">export</span> <span class="kwd">interface</span> <span class="cls">UserProfile</span> {
+    id: <span class="kwd">string</span>;
+    email: <span class="kwd">string</span>;
+    role: <span class="str">'admin'</span> | <span class="str">'user'</span>; <span class="cmt">// Single Source of Truth</span>
 }</code></pre>
             </div>
-            <p>File: <code class="inline">libs/shared-data/src/index.ts</code></p>
+
+            <h3>2. Importa (Automaticamente collegato)</h3>
+            <p>Grazie al <code>tsconfig</code> centralizzato, importi la lib come se fosse un pacchetto npm.</p>
             <div class="code-container">
-                <div class="code-header"><div>index.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code><span class="ctl">export</span> * <span class="ctl">from</span> <span class="str">'./lib/shared-data'</span>;
-<span class="ctl">export</span> * <span class="ctl">from</span> <span class="str">'./lib/product.interface'</span>;</code></pre>
+                <div class="code-header"><div>app.component.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
+                <pre><code><span class="ctl">import</span> { UserProfile } <span class="ctl">from</span> <span class="str">'@olon-platform/shared-data'</span>;</code></pre>
             </div>
-        </div>
+        </section>
 
-        <div id="section3">
-            <h3>3. Backend (NestJS)</h3>
-            <div class="note">⚠️ <b>Nx v20 Safe:</b> Usiamo il metodo "Path-as-Name" (percorso esplicito) per evitare errori di schema.</div>
+        <section id="cheatsheet">
+            <h2>⚡ Nx Cheatsheet</h2>
+            <p>Comandi validati per <strong>Nx v20+</strong>. Usa questi comandi per evitare errori di schema.</p>
 
-            <span class="cmd-label">👉 Genera Risorsa 'Products' (CRUD)</span>
-            <div class="code-container">
-                <div class="code-header"><div>Terminal</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code>npx nx g @nx/nest:resource apps/backend/src/app/products --type=rest --crud=<span class="kwd">false</span></code></pre>
-            </div>
-            
-            <p>File: <code class="inline">apps/backend/src/app/products/products.service.ts</code></p>
-            <div class="code-container">
-                <div class="code-header"><div>products.service.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code><span class="ctl">import</span> { Injectable } <span class="ctl">from</span> <span class="str">'@nestjs/common'</span>;
-<span class="cmt">// Import DINAMICO (si aggiorna con l'input nella sidebar)</span>
-<span class="ctl">import</span> { Product } <span class="ctl">from</span> <span class="str">'<span class="dynamic-scope">@olon-platform</span>/shared-data'</span>;
-
-<span class="cls">@Injectable</span>()
-<span class="ctl">export</span> <span class="kwd">class</span> <span class="cls">ProductsService</span> {
-  <span class="mtd">findAll</span>(): <span class="cls">Product</span>[] {
-    <span class="ctl">return</span> [
-      { id: <span class="str">'1'</span>, name: <span class="str">'Laptop'</span>, price: <span class="num">1500</span>, description: <span class="str">'Workstation'</span> },
-      { id: <span class="str">'2'</span>, name: <span class="str">'Mouse'</span>, price: <span class="num">20</span>, description: <span class="str">'Wireless'</span> }
-    ];
-  }
-}</code></pre>
-            </div>
-
-            <p>File: <code class="inline">apps/backend/src/main.ts</code> (Abilitazione CORS)</p>
-            <div class="code-container">
-                <div class="code-header"><div>main.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code><span class="cmt">// Import necessari per l'avvio dell'applicazione NestJS</span>
-<span class="ctl">import</span> { NestFactory } <span class="ctl">from</span> <span class="str">'@nestjs/core'</span>;
-<span class="ctl">import</span> { AppModule } <span class="ctl">from</span> <span class="str">'./app/app.module'</span>;
-
-<span class="ctl">async</span> <span class="kwd">function</span> <span class="mtd">bootstrap</span>() {
-  <span class="kwd">const</span> app = <span class="ctl">await</span> NestFactory.<span class="mtd">create</span>(AppModule);
-  app.<span class="mtd">setGlobalPrefix</span>(<span class="str">'api'</span>);
-  app.<span class="mtd">enableCors</span>(); 
-  <span class="ctl">await</span> app.<span class="mtd">listen</span>(<span class="num">3000</span>);
-}
-<span class="mtd">bootstrap</span>();</code></pre>
-            </div>
-        </div>
-
-        <div id="section4">
-            <h3>4. Frontend (Angular)</h3>
-            
-            <h4>1. Configurazione Globale</h4>
-            <p>File: <code class="inline">apps/frontend/src/app/app.config.ts</code></p>
-            <div class="note">📝 <b>Integrazione:</b> Aggiungi <code>provideHttpClient</code> mantenendo i provider esistenti (es. idratazione/error handling).</div>
-            
-            <div class="code-container">
-                <div class="code-header"><div>app.config.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code><span class="ctl">import</span> { ApplicationConfig, provideBrowserGlobalErrorListeners } <span class="ctl">from</span> <span class="str">'@angular/core'</span>;
-<span class="ctl">import</span> { provideRouter } <span class="ctl">from</span> <span class="str">'@angular/router'</span>;
-<span class="cmt">// Import necessario per le chiamate API</span>
-<span class="ctl">import</span> { provideHttpClient, withFetch } <span class="ctl">from</span> <span class="str">'@angular/common/http'</span>;
-<span class="ctl">import</span> { appRoutes } <span class="ctl">from</span> <span class="str">'./app.routes'</span>;
-
-<span class="ctl">export</span> <span class="kwd">const</span> appConfig: <span class="cls">ApplicationConfig</span> = {
-  providers: [
-    <span class="mtd">provideBrowserGlobalErrorListeners</span>(), 
-    <span class="mtd">provideRouter</span>(appRoutes),
-    <span class="cmt">// Registra HttpClient con Fetch API (Best Practice)</span>
-    <span class="mtd">provideHttpClient</span>(<span class="mtd">withFetch</span>())
-  ],
-};</code></pre>
-            </div>
-
-            <h4>2. Generazione Service</h4>
-            <span class="cmd-label">👉 Service: Richiede ancora il flag --project</span>
+            <h3>🏃‍♂️ Esecuzione</h3>
             <div class="code-container">
                 <div class="code-header"><div>Terminal</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code>npx nx g @nx/angular:service core/services/product --project=frontend</code></pre>
-            </div>
-            
-            <p>File: <code class="inline">apps/frontend/src/app/core/services/product.ts</code></p>
-            <div class="code-container">
-                <div class="code-header"><div>product.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code><span class="ctl">import</span> { Injectable, inject } <span class="ctl">from</span> <span class="str">'@angular/core'</span>;
-<span class="ctl">import</span> { HttpClient } <span class="ctl">from</span> <span class="str">'@angular/common/http'</span>;
-<span class="cmt">// Import Typesafe dal workspace</span>
-<span class="ctl">import</span> { Product } <span class="ctl">from</span> <span class="str">'<span class="dynamic-scope">@olon-platform</span>/shared-data'</span>;
-<span class="ctl">import</span> { Observable } <span class="ctl">from</span> <span class="str">'rxjs'</span>;
-
-<span class="cls">@Injectable</span>({ providedIn: <span class="str">'root'</span> })
-<span class="ctl">export</span> <span class="kwd">class</span> <span class="cls">ProductService</span> {
-  <span class="kwd">private</span> http = <span class="mtd">inject</span>(HttpClient);
-  <span class="kwd">private</span> apiUrl = <span class="str">'http://localhost:3000/api/products'</span>;
-
-  <span class="mtd">getProducts</span>(): Observable&lt;<span class="cls">Product</span>[]&gt; {
-    <span class="ctl">return</span> <span class="kwd">this</span>.http.<span class="mtd">get</span>&lt;<span class="cls">Product</span>[]&gt;(<span class="kwd">this</span>.apiUrl);
-  }
-}</code></pre>
+                <pre><code>npx nx run-many -t serve -p frontend,backend</code></pre>
             </div>
 
-            <h4>3. Generazione Componente</h4>
-            <span class="cmd-label">👉 Component: Usa il percorso completo</span>
-            <div class="code-container">
-                <div class="code-header"><div>Terminal</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code>npx nx g @nx/angular:component apps/frontend/src/app/features/product-list</code></pre>
-            </div>
+            <h3>✨ Generatori</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="15%">Tag</th>
+                        <th width="45%">Comando</th>
+                        <th>Descrizione</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-fe">Frontend</span></td>
+                        <td><code>npx nx g @nx/angular:component features/login</code></td>
+                        <td>Genera componente (SCSS, HTML, TS) in <code>features/</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-fe">Frontend</span></td>
+                        <td><code>npx nx g @nx/angular:service core/auth</code></td>
+                        <td>Genera servizio iniettabile in <code>src/app/core</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-fe">Frontend</span></td>
+                        <td><code>npx nx g @nx/angular:guard core/guards/auth</code></td>
+                        <td>Genera una Route Guard funzionale.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-fe">Frontend</span></td>
+                        <td><code>npx nx g @nx/angular:interceptor core/jwt</code></td>
+                        <td>Genera un HttpInterceptor funzionale.</td>
+                    </tr>
 
-            <p>File: <code class="inline">apps/frontend/src/app/features/product-list/product-list.ts</code></p>
-            <div class="code-container">
-                <div class="code-header"><div>product-list.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code><span class="ctl">import</span> { Component, inject } <span class="ctl">from</span> <span class="str">'@angular/core'</span>;
-<span class="ctl">import</span> { CommonModule } <span class="ctl">from</span> <span class="str">'@angular/common'</span>;
-<span class="cmt">// Import relativo (corretto per struttura Nx v20)</span>
-<span class="ctl">import</span> { ProductService } <span class="ctl">from</span> <span class="str">'../core/services/product'</span>;
+                    <tr>
+                        <td><span class="tag tag-be">Backend</span></td>
+                        <td><code>npx nx g @nx/nest:resource products</code></td>
+                        <td>🚀 <strong>Best Practice:</strong> Crea Controller, Service, DTO e Module (CRUD).</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-be">Backend</span></td>
+                        <td><code>npx nx g @nx/nest:controller users</code></td>
+                        <td>Crea solo il Controller.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-be">Backend</span></td>
+                        <td><code>npx nx g @nx/nest:service users</code></td>
+                        <td>Crea solo il Service (Logica di business).</td>
+                    </tr>
 
-<span class="cls">@Component</span>({
-  selector: <span class="str">'app-product-list'</span>,
-  standalone: <span class="kwd">true</span>,
-  imports: [CommonModule],
-  <span class="cmt">// Nota: i file generati seguono il nome del TS (product-list.ts)</span>
-  templateUrl: <span class="str">'./product-list.html'</span>,
-  styleUrl: <span class="str">'./product-list.scss'</span>,
-})
-<span class="ctl">export</span> <span class="kwd">class</span> <span class="cls">ProductListComponent</span> {
-  <span class="kwd">private</span> productService = <span class="mtd">inject</span>(ProductService);
-  products$ = <span class="kwd">this</span>.productService.<span class="mtd">getProducts</span>();
-}</code></pre>
-            </div>
-        </div>
+                    <tr>
+                        <td><span class="tag tag-sh">Shared</span></td>
+                        <td><code>npx nx g @nx/js:lib shared-ui</code></td>
+                        <td>Crea una nuova libreria TS condivisa nel monorepo.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-        <div id="section5">
-            <h3>5. Esecuzione</h3>
-            <p>Lancia l'intero stack in parallelo con un solo comando.</p>
-            <div class="code-container">
-                <div class="code-header"><div>Terminal</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code>npx nx run-many --target=serve --projects=frontend,backend</code></pre>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Data Binding Dinamico per il nome Workspace
-        function updateScope() {
-            const input = document.getElementById('ws-name').value;
-            let scopeName = input ? input : 'olon-platform';
-            if (!scopeName.startsWith('@')) {
-                scopeName = '@' + scopeName;
-            }
+        <section id="troubleshooting">
+            <h2>🐛 Troubleshooting</h2>
+            <ul>
+                <li><strong>Errore <code>$'\r': command not found</code>:</strong> Il file ha terminatori Windows (CRLF). Esegui <code>dos2unix olon-init.sh</code> o converti in LF dal tuo editor.</li>
+                <li><strong>Errore <code>npm error Invalid URL</code>:</strong> Causato anch'esso dai terminatori Windows. Converti in LF.</li>
+                <li><strong>Node Permissions:</strong> Se ricevi <code>EACCES</code>, significa che stai usando Node di root. Usa <strong>NVM</strong> con il tuo utente standard.</li>
+            </ul>
+        </section>
+    </main>
 
-            const elements = document.querySelectorAll('.dynamic-scope');
-            elements.forEach(el => {
-                el.textContent = scopeName;
-            });
-        }
+    <footer>
+        <p>&copy; 2026 Olon Platform Development Team - Script Version 7.3</p>
+    </footer>
+</div>
 
-        // Funzione Copia
-        function copyToClipboard(button) {
-            const container = button.closest('.code-container');
-            const codeBlock = container.querySelector('pre code');
-            
-            const textArea = document.createElement("textarea");
-            textArea.value = codeBlock.innerText;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand("Copy");
-            textArea.remove();
-            
-            const originalText = button.innerText;
-            button.innerText = "Copiato!";
-            button.style.color = "#4ec9b0";
-            button.style.borderColor = "#4ec9b0";
-            setTimeout(() => { button.innerText = originalText; button.style.color = "#ccc"; button.style.borderColor = "#444"; }, 2000);
-        }
-
-        // Scroll Spy (Evidenzia sezione attiva)
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('.main-content > div[id]');
-            const navLinks = document.querySelectorAll('.sidebar ul li a');
-
-            window.addEventListener('scroll', () => {
-                let current = '';
-                
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    // Offset per navbar mobile o padding desktop
-                    if (pageYOffset >= (sectionTop - 150)) {
-                        current = section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(a => {
-                    a.classList.remove('active');
-                    if (a.getAttribute('href').includes(current)) {
-                        a.classList.add('active');
-                    }
-                });
-            });
-        });
+<script>
+    function copyToClipboard(button) {
+        const container = button.closest('.code-container');
+        // Seleziona il blocco di codice corretto
+        const codeBlock = container.querySelector('pre code') || container.querySelector('pre'); 
         
-        // Init al caricamento
-        updateScope();
-    </script>
+        const textArea = document.createElement("textarea");
+        textArea.value = codeBlock.innerText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("Copy");
+        textArea.remove();
+        
+        const originalText = button.innerText;
+        button.innerText = "Copiato!";
+        button.style.color = "#4ec9b0";
+        button.style.borderColor = "#4ec9b0";
+        setTimeout(() => { button.innerText = originalText; button.style.color = "#ccc"; button.style.borderColor = "#475569"; }, 2000);
+    }
+</script>
+
 </body>
 </html>
