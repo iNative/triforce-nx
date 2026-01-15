@@ -1,7 +1,5 @@
-# iNative - NgNest Init
-### v7.3
-==============
-
+# NgNest Init v7.3
+==================
 Automazione Monorepo Nx per Angular & NestJS.
 
 🛡️ End-to-End Type Safety
@@ -221,4 +219,4 @@ Crea una nuova libreria TS condivisa nel monorepo.
 *   **Errore `npm error Invalid URL`:** Causato anch'esso dai terminatori Windows. Converti in LF.
 *   **Node Permissions:** Se ricevi `EACCES`, significa che stai usando Node di root. Usa **NVM** con il tuo utente standard.
 
-© 2026 Olon Platform Development Team - Script Version 7.3
+© 2026 Guido Filippo Serio - Script Version 7.3
