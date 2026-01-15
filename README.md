@@ -15,23 +15,6 @@ Configurazione automatica di **SCSS**, **Esbuild** e **Jest** per ogni nuovo com
 
 Struttura a cartelle scalabile, caching intelligente e naming convention forzate via script.
 
-🚀 Quick Start: Inizializzazione
---------------------------------
-
-Salva il seguente codice nel file `ngnest-init.sh`.  
-Lo script gestisce interattivamente nomi, errori e configura i default del workspace.
-
-
-Esegui il comando nel terminale: `bash ngnest-init.sh`
-    
-
-🔄 Workflow: Shared Types
--------------------------
-
-> Definisci il dato una volta sola, usalo ovunque.
-
-Grazie al `tsconfig` centralizzato, importi la lib come se fosse un pacchetto npm.
-
 
 
 🐛 Troubleshooting
