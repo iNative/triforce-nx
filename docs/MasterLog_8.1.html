@@ -41,17 +41,6 @@
             box-shadow: 2px 0 10px rgba(0,0,0,0.2);
         }
         
-        .sidebar-header { 
-            padding: 20px 25px; 
-            font-weight: 700; 
-            color: var(--text-primary); 
-            border-bottom: 1px solid var(--border); 
-            white-space: nowrap; 
-            letter-spacing: 0.5px; 
-            font-size: 1.1rem;
-            display: flex; align-items: center; gap: 10px;
-        }
-        
         .sidebar ul { list-style: none; padding: 15px 10px; margin: 0; }
         
         /* Etichette Menu */
@@ -78,11 +67,11 @@
             font-weight: 600;
         }
 
-        /* Config Box Interattivo */
+        /* Config Box Interattivo (Ora in alto) */
         .config-box { 
             padding: 20px; 
             background: rgba(0,0,0,0.2); 
-            border-top: 1px solid var(--border); 
+            border-bottom: 1px solid var(--border); /* Separatore sotto */
         }
         
         .config-box label { 
@@ -108,7 +97,7 @@
         }
         
         .dynamic-scope { 
-            color: #fbbf24; /* Amber per evidenziare */
+            color: #fbbf24; 
             font-weight: bold; 
             background: rgba(251, 191, 36, 0.1);
             padding: 0 4px; border-radius: 4px;
@@ -136,16 +125,27 @@
                 width: 100%; height: auto; position: fixed; bottom: 0; left: 0; 
                 border-top: 1px solid var(--border); display: flex; flex-direction: row; 
                 align-items: center; overflow-x: auto; box-shadow: 0 -4px 20px rgba(0,0,0,0.3); 
-                justify-content: space-between; 
+                justify-content: flex-start; /* Allinea a sinistra */
             }
-            .sidebar-header { border-bottom: none; border-right: 1px solid var(--border); padding: 15px; font-size: 0.9rem; }
-            .sidebar ul { display: flex; flex-direction: row; }
+            
+            .sidebar ul { display: flex; flex-direction: row; flex-grow: 1; }
+            
             .sidebar li a { 
                 border-radius: 0; padding: 15px 20px; font-size: 0.85rem; 
                 border-top: 3px solid transparent; margin-bottom: 0;
             }
             .sidebar li a.active { background: transparent; border-top-color: var(--accent); }
-            .config-box { border-top: none; border-left: 1px solid var(--border); padding: 10px; min-width: 150px; background: transparent; }
+            
+            /* Su mobile, box a sinistra fisso, menu scorrevole a destra */
+            .config-box { 
+                border-bottom: none; 
+                border-right: 1px solid var(--border); 
+                padding: 10px; min-width: 160px; 
+                background: transparent; 
+                position: sticky; left: 0; /* Opzionale: tienilo fisso se lo scroll è lungo */
+                background-color: var(--bg-sidebar); z-index: 10;
+            }
+            
             .main-content { padding: 30px 20px 120px 20px; width: 100%; box-sizing: border-box; }
         }
         
@@ -180,7 +180,7 @@
             border-radius: 8px; 
             margin: 20px 0; 
             position: relative; 
-            overflow: hidden; /* Per rounded corners */
+            overflow: hidden; 
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
         
@@ -217,7 +217,7 @@
             padding: 20px; 
             font-size: 0.95rem; 
             margin: 25px 0; 
-            color: #fcd34d; /* Amber Light */
+            color: #fcd34d; 
             border-radius: 0 8px 8px 0; 
         }
         .note b { color: #fbbf24; }
@@ -235,8 +235,9 @@
 <body>
 
     <nav class="sidebar">
-        <div class="sidebar-header">
-            <span>📚 NgNest Logs</span>
+        <div class="config-box">
+            <label for="ws-name">Workspace Name</label>
+            <input type="text" id="ws-name" value="olon-platform" placeholder="es. monoRepo" oninput="updateScope()">
         </div>
         
         <ul>
@@ -246,11 +247,6 @@
             <li><a href="#section4" class="nav-link">💻 Frontend (Ng)</a></li>
             <li><a href="#section5" class="nav-link">🚀 Esecuzione</a></li>
         </ul>
-
-        <div class="config-box">
-            <label for="ws-name">Workspace Name</label>
-            <input type="text" id="ws-name" value="olon-platform" placeholder="es. monoRepo" oninput="updateScope()">
-        </div>
     </nav>
 
     <div class="main-content">
@@ -349,8 +345,6 @@ bash ngnest-init.sh</code></pre>
             
             <h4>1. Configurazione Globale</h4>
             <p>File: <code class="inline">apps/frontend/src/app/app.config.ts</code></p>
-            <div class="note">📝 <b>Integrazione:</b> Aggiungi <code>provideHttpClient</code> mantenendo i provider esistenti (es. idratazione/error handling).</div>
-            
             <div class="code-container">
                 <div class="code-header"><div>app.config.ts</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
                 <pre><code><span class="ctl">import</span> { ApplicationConfig, provideBrowserGlobalErrorListeners } <span class="ctl">from</span> <span class="str">'@angular/core'</span>;
@@ -465,7 +459,7 @@ bash ngnest-init.sh</code></pre>
             
             const originalText = button.innerText;
             button.innerText = "Copiato!";
-            button.style.color = "#38bdf8"; // Sky Blue
+            button.style.color = "#38bdf8"; 
             button.style.borderColor = "#38bdf8";
             setTimeout(() => { button.innerText = originalText; button.style.color = "#94a3b8"; button.style.borderColor = "#334155"; }, 2000);
         }
