@@ -2,7 +2,10 @@
 
 Automazione Monorepo Nx per Angular & NestJS.
 
+## > 📖 **Documentazione Completa:** 
+Per la guida visuale e il Master Log, apri [docs/index.html](https://inative.github.io/ngnest-init/) nel tuo browser.
 
+### feaures: 
 🛡️ End-to-End Type Safety
 
 Il superpotere di questa architettura. Le interfacce TypeScript vivono in una libreria condivisa. Se modifichi un DTO nel Backend, il Frontend **si rompe in compilazione** prima ancora che tu possa committare.
