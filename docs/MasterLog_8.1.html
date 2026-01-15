@@ -5,98 +5,246 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NgNest - Master Log</title>
     <style>
-        :root { 
-            --bg-color: #1e1e1e; 
-            --sidebar-color: #252526; 
-            --text-color: #d4d4d4; 
-            --accent-color: #007acc; 
-            --border-color: #3e3e42; 
+        :root {
+            /* Palette unificata con Index.html (Smart Casual / Slate Theme) */
+            --bg-primary: #0f172a;    /* Slate 900 */
+            --bg-sidebar: #1e293b;    /* Slate 800 */
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;  /* Slate 50 */
+            --text-secondary: #94a3b8; /* Slate 400 */
+            --accent: #38bdf8;        /* Sky 400 */
+            --accent-hover: #0ea5e9;
+            --accent-glow: rgba(56, 189, 248, 0.10);
+            --border: #334155;        /* Slate 700 */
+            --code-bg: #020617;       /* Slate 950 */
+            
+            /* Syntax Highlighting */
             --kwd: #569cd6; --str: #ce9178; --ctl: #c586c0; --cls: #4ec9b0; --mtd: #dcdcaa; --var: #9cdcfe; --cmt: #6a9955; 
         }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; }
+        
+        body { 
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            line-height: 1.6;
+        }
         
         /* --- SIDEBAR & NAV --- */
-        .sidebar { background-color: var(--sidebar-color); border-color: var(--border-color); z-index: 100; transition: all 0.3s ease; }
-        .sidebar-header { padding: 15px 20px; font-weight: bold; color: #fff; border-bottom: 1px solid var(--border-color); white-space: nowrap; letter-spacing: 1px; }
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar { 
+            background-color: var(--bg-sidebar); 
+            border-color: var(--border); 
+            z-index: 100; 
+            transition: all 0.3s ease; 
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .sidebar-header { 
+            padding: 20px 25px; 
+            font-weight: 700; 
+            color: var(--text-primary); 
+            border-bottom: 1px solid var(--border); 
+            white-space: nowrap; 
+            letter-spacing: 0.5px; 
+            font-size: 1.1rem;
+            display: flex; align-items: center; gap: 10px;
+        }
+        
+        .sidebar ul { list-style: none; padding: 15px 10px; margin: 0; }
         
         /* Etichette Menu */
         .sidebar li a { 
-            display: block; padding: 12px 20px; color: var(--text-color); text-decoration: none; 
-            font-size: 0.9rem; border-left: 4px solid transparent; transition: background 0.2s, border-color 0.2s; 
-            white-space: nowrap; font-weight: 500;
+            display: block; padding: 10px 15px; 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            border-radius: 6px;
+            transition: all 0.2s ease; 
+            white-space: nowrap; 
+            font-weight: 500;
+            margin-bottom: 4px;
         }
-        .sidebar li a:hover { background-color: #2a2d2e; }
-        .sidebar li a.active { background-color: rgba(0, 122, 204, 0.15); color: #fff; border-left-color: var(--accent-color); }
+        
+        .sidebar li a:hover { 
+            background-color: rgba(255,255,255,0.05); 
+            color: var(--text-primary); 
+        }
+        
+        .sidebar li a.active { 
+            background-color: var(--accent-glow); 
+            color: var(--accent); 
+            font-weight: 600;
+        }
 
         /* Config Box Interattivo */
-        .config-box { padding: 15px 20px; background: #2d2d2d; border-top: 1px solid var(--border-color); }
-        .config-box label { display: block; font-size: 0.7rem; color: #999; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
-        .config-box input { width: 100%; box-sizing: border-box; background: #1e1e1e; border: 1px solid #444; color: #fff; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 0.85rem; font-weight: bold; color: var(--accent-color); }
-        .config-box input:focus { border-color: var(--accent-color); outline: none; }
+        .config-box { 
+            padding: 20px; 
+            background: rgba(0,0,0,0.2); 
+            border-top: 1px solid var(--border); 
+        }
         
-        .dynamic-scope { color: #ff9d00; font-weight: bold; text-decoration: underline dotted; cursor: help; }
+        .config-box label { 
+            display: block; font-size: 0.75rem; color: var(--text-secondary); 
+            margin-bottom: 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;
+        }
+        
+        .config-box input { 
+            width: 100%; box-sizing: border-box; 
+            background: var(--bg-primary); 
+            border: 1px solid var(--border); 
+            color: var(--accent); 
+            padding: 10px; 
+            border-radius: 6px; 
+            font-family: 'Consolas', monospace; 
+            font-size: 0.9rem; font-weight: bold; 
+            transition: border-color 0.2s;
+        }
+        
+        .config-box input:focus { 
+            border-color: var(--accent); outline: none; 
+            box-shadow: 0 0 0 2px var(--accent-glow);
+        }
+        
+        .dynamic-scope { 
+            color: #fbbf24; /* Amber per evidenziare */
+            font-weight: bold; 
+            background: rgba(251, 191, 36, 0.1);
+            padding: 0 4px; border-radius: 4px;
+            cursor: help; 
+        }
 
         /* --- LAYOUT RESPONSIVE --- */
         /* Desktop */
         @media(min-width: 1024px) {
             body { flex-direction: row; }
-            .sidebar { width: 260px; height: 100vh; position: fixed; top: 0; left: 0; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; }
+            .sidebar { 
+                width: 280px; height: 100vh; position: fixed; top: 0; left: 0; 
+                border-right: 1px solid var(--border); display: flex; flex-direction: column; 
+            }
             .sidebar ul { flex-grow: 1; overflow-y: auto; }
-            .main-content { padding: 40px; width: 100%; max-width: 900px; margin: 0 auto; margin-left: 260px; }
+            .main-content { 
+                padding: 60px; width: 100%; max-width: 900px; 
+                margin: 0 auto; margin-left: 280px; 
+            }
         }
         
         /* Mobile/Tablet (<1024px) */
         @media(max-width: 1023px) {
             .sidebar { 
                 width: 100%; height: auto; position: fixed; bottom: 0; left: 0; 
-                border-top: 1px solid var(--border-color); display: flex; flex-direction: row; 
-                align-items: center; overflow-x: auto; box-shadow: 0 -4px 10px rgba(0,0,0,0.5); 
+                border-top: 1px solid var(--border); display: flex; flex-direction: row; 
+                align-items: center; overflow-x: auto; box-shadow: 0 -4px 20px rgba(0,0,0,0.3); 
                 justify-content: space-between; 
             }
-            .sidebar-header { border-bottom: none; border-right: 1px solid var(--border-color); padding: 10px 15px; font-size: 0.85rem; }
+            .sidebar-header { border-bottom: none; border-right: 1px solid var(--border); padding: 15px; font-size: 0.9rem; }
             .sidebar ul { display: flex; flex-direction: row; }
             .sidebar li a { 
-                border-left: none; border-top: 4px solid transparent; 
-                padding: 15px 15px; font-size: 0.85rem; 
+                border-radius: 0; padding: 15px 20px; font-size: 0.85rem; 
+                border-top: 3px solid transparent; margin-bottom: 0;
             }
-            .sidebar li a.active { border-left-color: transparent; border-top-color: var(--accent-color); }
-            .config-box { border-top: none; border-left: 1px solid var(--border-color); padding: 8px; min-width: 140px; }
-            .main-content { padding: 20px 20px 100px 20px; width: 100%; box-sizing: border-box; }
+            .sidebar li a.active { background: transparent; border-top-color: var(--accent); }
+            .config-box { border-top: none; border-left: 1px solid var(--border); padding: 10px; min-width: 150px; background: transparent; }
+            .main-content { padding: 30px 20px 120px 20px; width: 100%; box-sizing: border-box; }
         }
         
         /* Typography & Components */
-        h1 { border-bottom: 1px solid var(--border-color); padding-bottom: 15px; color: #fff; font-size: 1.8rem; margin-top: 0; }
-        h3 { color: var(--accent-color); margin-top: 50px; border-left: 4px solid var(--accent-color); padding-left: 10px; scroll-margin-top: 20px; }
-        h4 { color: #fff; margin-top: 30px; margin-bottom: 10px; font-size: 1.1rem; }
-        p { line-height: 1.6; color: #ccc; }
+        h1 { 
+            border-bottom: 1px solid var(--border); padding-bottom: 20px; 
+            color: var(--text-primary); font-size: 2.2rem; margin-top: 0; 
+            display: flex; align-items: center; gap: 15px;
+        }
         
-        code.inline { background-color: #3c3c3c; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #d7ba7d; word-break: break-all; font-size: 0.9em; }
+        h3 { 
+            color: var(--accent); margin-top: 60px; font-size: 1.5rem;
+            display: flex; align-items: center; gap: 10px;
+            scroll-margin-top: 20px; 
+        }
         
-        .code-container { background-color: #1e1e1e; border: 1px solid var(--border-color); border-radius: 6px; margin: 15px 0; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-        .code-header { background-color: #2d2d2d; padding: 8px 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; color: #999; font-size: 0.85rem; }
-        .copy-btn { background: transparent; border: 1px solid #444; color: #ccc; border-radius: 4px; padding: 4px 10px; cursor: pointer; transition: all 0.2s; font-size: 0.8rem; }
-        .copy-btn:hover { background-color: #3e3e42; color: white; border-color: #666; }
+        h4 { color: var(--text-primary); margin-top: 35px; margin-bottom: 15px; font-size: 1.2rem; }
         
-        pre { margin: 0; padding: 15px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace; color: #d4d4d4; font-size: 14px; line-height: 1.5; }
+        p { color: var(--text-secondary); font-size: 1rem; }
+        
+        /* Inline Code */
+        code.inline { 
+            background-color: rgba(255,255,255,0.07); padding: 2px 6px; 
+            border-radius: 4px; font-family: 'Consolas', monospace; 
+            color: #e2e8f0; font-size: 0.9em; border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Code Blocks - Style Smart Casual */
+        .code-container { 
+            background-color: var(--bg-sidebar); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            margin: 20px 0; 
+            position: relative; 
+            overflow: hidden; /* Per rounded corners */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .code-header { 
+            background-color: rgba(0,0,0,0.3); 
+            padding: 10px 20px; 
+            border-bottom: 1px solid var(--border); 
+            display: flex; justify-content: space-between; align-items: center; 
+            color: var(--text-secondary); font-size: 0.8rem; font-family: sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        
+        .copy-btn { 
+            background: transparent; border: 1px solid var(--border); color: var(--text-secondary); 
+            border-radius: 4px; padding: 4px 12px; cursor: pointer; transition: all 0.2s; font-size: 0.75rem; 
+        }
+        .copy-btn:hover { background-color: var(--border); color: #fff; }
+        
+        pre { 
+            margin: 0; padding: 25px; overflow-x: auto; 
+            font-family: 'Consolas', 'Monaco', monospace; 
+            color: #e2e8f0; font-size: 14px; line-height: 1.6; 
+            background: var(--code-bg);
+        }
         
         /* Syntax Highlighting */
-        .kwd { color: var(--kwd); } .str { color: var(--str); } .ctl { color: var(--ctl); } .cls { color: var(--cls); } .mtd { color: var(--mtd); } .var { color: var(--var); } .cmt { color: #6a9955; }
-        .cmd-label { color: #4ec9b0; font-weight: bold; margin-bottom: 5px; display: block; font-size: 0.85rem; letter-spacing: 0.5px; }
-        .note { background: #2d2d2d; border-left: 3px solid #ffd700; padding: 15px; font-size: 0.9rem; margin: 20px 0; color: #eee; border-radius: 0 4px 4px 0; }
+        .kwd { color: var(--kwd); } .str { color: var(--str); } .ctl { color: var(--ctl); } .cls { color: var(--cls); } .mtd { color: var(--mtd); } .var { color: var(--var); } .cmt { color: var(--cmt); font-style: italic; }
+        
+        .cmd-label { color: var(--cls); font-weight: bold; margin-bottom: 8px; display: inline-block; font-size: 0.9rem; letter-spacing: 0.5px; border-bottom: 2px solid var(--cls); padding-bottom: 2px; }
+        
+        /* Alert Note */
+        .note { 
+            background: rgba(251, 191, 36, 0.1); 
+            border-left: 4px solid #fbbf24; 
+            padding: 20px; 
+            font-size: 0.95rem; 
+            margin: 25px 0; 
+            color: #fcd34d; /* Amber Light */
+            border-radius: 0 8px 8px 0; 
+        }
+        .note b { color: #fbbf24; }
+
+        /* Badge Home */
+        .home-link {
+            text-decoration: none; font-size: 0.8rem; color: var(--accent);
+            border: 1px solid var(--border); padding: 5px 10px; border-radius: 20px;
+            margin-bottom: 20px; display: inline-block; transition: all 0.2s;
+        }
+        .home-link:hover { background: var(--border); }
+
     </style>
 </head>
 <body>
 
     <nav class="sidebar">
-        <div class="sidebar-header">NgNest Master Log</div>
+        <div class="sidebar-header">
+            <span>📚 NgNest Logs</span>
+        </div>
         
         <ul>
-            <li><a href="#section1" class="nav-link">✔️ 1. Setup</a></li>
-            <li><a href="#section2" class="nav-link">📦 2. Shared Types</a></li>
-            <li><a href="#section3" class="nav-link">🛠️ 3. Backend (Nest)</a></li>
-            <li><a href="#section4" class="nav-link">💻 4. Frontend (Ng)</a></li>
-            <li><a href="#section5" class="nav-link">🚀 5. Esecuzione</a></li>
+            <li><a href="#section1" class="nav-link">✔️ Setup</a></li>
+            <li><a href="#section2" class="nav-link">📦 Shared Types</a></li>
+            <li><a href="#section3" class="nav-link">🛠️ Backend (Nest)</a></li>
+            <li><a href="#section4" class="nav-link">💻 Frontend (Ng)</a></li>
+            <li><a href="#section5" class="nav-link">🚀 Esecuzione</a></li>
         </ul>
 
         <div class="config-box">
@@ -106,13 +254,14 @@
     </nav>
 
     <div class="main-content">
-        <h1>📂 NgNest - Master Log</h1>
-        <p>Manuale operativo interattivo. Usa la sidebar per aggiornare il nome del progetto in tutti i codici.</p>
+        <a href="index.html" class="home-link">← Torna alla Documentazione</a>
+        <h1>Master Log <span style="font-size: 1rem; opacity: 0.6; font-weight: normal; margin-left: auto;">v8.1</span></h1>
+        <p>Manuale operativo interattivo. Usa la sidebar per aggiornare il nome del progetto in tutti i codici sottostanti.</p>
 
         <div id="section1">
             <h3>1. Setup Check</h3>
             <p>
-                Si assume che il workspace sia stato inizializzato con lo script <code class="inline">ngnest-init.sh</code> (disponibile nel README).
+                Si assume che il workspace sia stato inizializzato con lo script <code class="inline">ngnest-init.sh</code>.
             </p>
             <div class="note">⚠️ <b>Action Required:</b> Se non hai ancora il progetto, scarica lo script dal README ed eseguilo.</div>
 
@@ -316,9 +465,9 @@ bash ngnest-init.sh</code></pre>
             
             const originalText = button.innerText;
             button.innerText = "Copiato!";
-            button.style.color = "#4ec9b0";
-            button.style.borderColor = "#4ec9b0";
-            setTimeout(() => { button.innerText = originalText; button.style.color = "#ccc"; button.style.borderColor = "#444"; }, 2000);
+            button.style.color = "#38bdf8"; // Sky Blue
+            button.style.borderColor = "#38bdf8";
+            setTimeout(() => { button.innerText = originalText; button.style.color = "#94a3b8"; button.style.borderColor = "#334155"; }, 2000);
         }
 
         // Scroll Spy (Evidenzia sezione attiva)
