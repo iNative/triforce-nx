@@ -1,5 +1,5 @@
 # OloNx-AngularNestJS
-##olon-init v7.3
+## olon-init v7.3
 ==============
 
 Automazione Monorepo Nx per Angular & NestJS.
