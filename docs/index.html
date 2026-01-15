@@ -199,12 +199,12 @@
         <section id="setup">
             <h2>🚀 Quick Start: Inizializzazione</h2>
             <p>
-                Salva il seguente codice nel file <code class="inline">olon-init.sh</code>. 
+                Salva il seguente codice nel file <code class="inline">ngnest-init.sh</code>. 
                 <br>Lo script gestisce interattivamente nomi, errori e configura i default del workspace.
             </p>
 
             <div class="code-container">
-                <div class="code-header"><div>olon-init.sh</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
+                <div class="code-header"><div>ngnest-init.sh</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
                 <pre><code><span class="cmt">#!/bin/bash</span>
 <span class="cmt"># CONFIGURAZIONE E COLORI</span>
 VS_BLUE=<span class="str">'\033[1;34m'</span>
@@ -291,7 +291,7 @@ npx nx g @nx/js:library --name=shared-data --directory=libs/shared-data --bundle
             <p>Esegui il comando nel terminale:</p>
             <div class="code-container">
                 <div class="code-header"><div>Terminal</div><button class="copy-btn" onclick="copyToClipboard(this)">Copia</button></div>
-                <pre><code>bash olon-init.sh</code></pre>
+                <pre><code>bash ngnest-init.sh</code></pre>
             </div>
         </section>
 
@@ -389,7 +389,7 @@ npx nx g @nx/js:library --name=shared-data --directory=libs/shared-data --bundle
         <section id="troubleshooting">
             <h2>🐛 Troubleshooting</h2>
             <ul>
-                <li><strong>Errore <code>$'\r': command not found</code>:</strong> Il file ha terminatori Windows (CRLF). Esegui <code>dos2unix olon-init.sh</code> o converti in LF dal tuo editor.</li>
+                <li><strong>Errore <code>$'\r': command not found</code>:</strong> Il file ha terminatori Windows (CRLF). Esegui <code>dos2unix ngnest-init.sh</code> o converti in LF dal tuo editor.</li>
                 <li><strong>Errore <code>npm error Invalid URL</code>:</strong> Causato anch'esso dai terminatori Windows. Converti in LF.</li>
                 <li><strong>Node Permissions:</strong> Se ricevi <code>EACCES</code>, significa che stai usando Node di root. Usa <strong>NVM</strong> con il tuo utente standard.</li>
             </ul>
@@ -424,4 +424,5 @@ npx nx g @nx/js:library --name=shared-data --directory=libs/shared-data --bundle
 
 </body>
 </html>
+
 
