@@ -1,6 +1,7 @@
-# NgNest Init v7.3
-==================
+# NgNest Init `v7.3`
+
 Automazione Monorepo Nx per Angular & NestJS.
+
 
 🛡️ End-to-End Type Safety
 
